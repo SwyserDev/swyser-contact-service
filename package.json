@@ -1,0 +1,27 @@
+{
+  "name": "swyser-contact-service",
+  "version": "1.0.0",
+  "description": "nodeJs api for swyser-contact-service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwyserDev/swyser-contact-service.git"
+  },
+  "author": "Francois van der Merwe (SwyserDev)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SwyserDev/swyser-contact-service/issues"
+  },
+  "homepage": "https://github.com/SwyserDev/swyser-contact-service#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "node-notifier": "^4.6.1",
+    "nodemailer": "^2.7.0",
+    "nodemailer-smtp-transport": "^2.7.2",
+    "request": "^2.78.0"
+  }
+}
