@@ -10,9 +10,8 @@
   function sendMail() {
 
     var transporter = nodemailer.createTransport(smtpTransport({
-      host: '41.185.13.224',
+      host: 'smtp.swyser.co.za',
       port: 587,
-      secure: true,
       auth: {
         user: 'developer@swyser.co.za',
         pass: '##Swyser34'
@@ -28,15 +27,12 @@
       watchHtml: '<b>Hello</b> to myself',
     };
 
-    console.log('Sending Mail');
     transporter.sendMail(message, function (error, info) {
       if (error) {
-        console.log('Error occurred');
         console.log(error.message);
         return;
       }
-      console.log('Message sent successfully!');
-      console.log('Server responded with "%s"', info.response);
+      console.log('Message sent successfully!!!!!!!!!!!!!');
     });
 
 
