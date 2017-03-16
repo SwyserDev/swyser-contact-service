@@ -1,58 +1,53 @@
 (function () {
   'use strict';
 
-  var nodemailer = require("nodemailer");
-  var smtpTransport = require('nodemailer-smtp-transport');
+  const nodemailer = require("nodemailer");
+  const smtpTransport = require('nodemailer-smtp-transport');
 
-  var express = require('express');
-  var contactRoutes = express.Router();
+  const express = require('express');
+  const contactRoutes = express.Router();
+  const moment = require('moment');
+  const Guid = require('guid');
+  const hbs = require('nodemailer-express-handlebars');
 
-  function sendMail() {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'swyserdev@gmail.com',
+      pass: '##WilleWagter34'
+    }
+  });
 
-    var transporter = nodemailer.createTransport(smtpTransport({
-      host: 'smtp.swyser.co.za',
-      port: 587,
-      auth: {
-        user: 'developer@swyser.co.za',
-        pass: '##Swyser34'
-      }
-    }));
+  nodemailer.use('compile', hbs({
+    viewPath: 'templates',
+    extName: '.hbs'
+
+  }));
+
+  contactRoutes.post('/contactme', function (req, res) {
+    var messageGuid = Guid.create();
+    var dateNow = moment();
 
     var message = {
-      to: 'swyser@live.co.za',
-      subject: 'Contact',
-      text: 'Hello to myself!',
-      html: '<p><b>Hello</b> to myself <img src="cid:note@example.com"/></p>' +
-      '<p>Here\'s a nyan cat for you as an embedded attachment:<br/><img src="cid:nyan@example.com"/></p>',
-      watchHtml: '<b>Hello</b> to myself',
+      from: 'Swyser Mailer ✔ <swyserdev@gmail.com>',
+      to: 'Swyser <swyser@live.co.za>',
+      subject: 'Contact from Website',
+      template: 'contact ',
+      context: '',
+      headers: {
+        priority: 'normal',
+        messageId: messageGuid,
+        date: dateNow
+      }
     };
 
-    transporter.sendMail(message, function (error, info) {
+
+    transporter.sendMail(message, (error, info) => {
       if (error) {
-        console.log(error.message);
-        return;
+        res.status(500).json({ err: error });
       }
-      console.log('Message sent successfully!!!!!!!!!!!!!');
+      res.status(200).json({ sent: true });
     });
-
-
-
-
-  }
-
-
-  contactRoutes.get('/contactMe', function (req, res) {
-
-
-    sendMail();
-
-
-
-    res.status(200).json({ blogs: [] });
-
-
-
-
   });
 
   module.exports = {

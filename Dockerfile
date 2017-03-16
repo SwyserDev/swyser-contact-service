@@ -11,3 +11,8 @@ RUN npm install
 # Start node server
 EXPOSE 8090
 CMD [ "npm", "start" ]
+
+
+
+
+# docker run -d -p 8080:8080/tcp swyserdev/swyser-contact-service
