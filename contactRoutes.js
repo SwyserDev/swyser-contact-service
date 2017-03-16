@@ -1,11 +1,9 @@
 (function () {
   'use strict';
 
-  const nodemailer = require("nodemailer");
-  const smtpTransport = require('nodemailer-smtp-transport');
-
   const express = require('express');
   const contactRoutes = express.Router();
+  const nodemailer = require("nodemailer");
   const moment = require('moment');
   const Guid = require('guid');
   const hbs = require('nodemailer-express-handlebars');
@@ -47,9 +45,9 @@
 
     mailer.sendMail(message, (error, info) => {
       if (error) {
-        res.status(500).json({ err: error });
+        res.status(500).json({ sent: false, err: error });
       }
-      res.status(200).json({ body: req.body });
+      res.status(200).json({ sent: true });
     });
   });
 

@@ -20,10 +20,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-router.get('/', function(req, res) {
-  res.redirect('index.html');
-});
-
 app.use('/api/', contactRoutes.routes());
 
 app.listen(8080);
