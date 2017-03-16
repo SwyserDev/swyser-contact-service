@@ -10,7 +10,7 @@
   const Guid = require('guid');
   const hbs = require('nodemailer-express-handlebars');
 
-  let transporter = nodemailer.createTransport({
+  let mailer = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'swyserdev@gmail.com',
@@ -18,7 +18,7 @@
     }
   });
 
-  nodemailer.use('compile', hbs({
+  mailer.use('compile', hbs({
     viewPath: 'templates',
     extName: '.hbs'
 
@@ -32,8 +32,12 @@
       from: 'Swyser Mailer ✔ <swyserdev@gmail.com>',
       to: 'Swyser <swyser@live.co.za>',
       subject: 'Contact from Website',
-      template: 'contact ',
-      context: '',
+      template: 'contact',
+      context: {
+        name: req.body.name,
+        email: req.body.email,
+        message: req.body.message
+      },
       headers: {
         priority: 'normal',
         messageId: messageGuid,
@@ -41,12 +45,11 @@
       }
     };
 
-
-    transporter.sendMail(message, (error, info) => {
+    mailer.sendMail(message, (error, info) => {
       if (error) {
         res.status(500).json({ err: error });
       }
-      res.status(200).json({ sent: true });
+      res.status(200).json({ body: req.body });
     });
   });
 
